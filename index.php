@@ -21,15 +21,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
     $password_hash = password_hash($password, PASSWORD_BCRYPT);
-
+    
     $query = $db->prepare("SELECT * FROM users.users WHERE email= ?");
-    $query->bind_param("email", $email);
+    $query->bind_param(":email", $email);
     $query->execute();
 
     $query = $db->prepare("INSERT INTO users.users(name,password,email) VALUES (:username,:password_hash,:email)");
-    $query->bind_param("username", $username);
-    $query->bind_param("password_hash", $password_hash);
-    $query->bind_param("email", $email);
+    $query->bind_param(":username", $username);
+    $query->bind_param(":password_hash", $password_hash);
+    $query->bind_param(":email", $email);
     $result = $query->execute();
 
     if ($result) {
